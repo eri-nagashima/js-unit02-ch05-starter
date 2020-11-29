@@ -1,9 +1,8 @@
 import Polyglot from 'node-polyglot';
 
-let currentLocale = 'ja';
-
 class TranslationApp {
   constructor() {
+    let currentLocale = 'ja';
     this.polyglot = new Polyglot();
   }
 
@@ -12,13 +11,21 @@ class TranslationApp {
       現在のLocaleに合わせて、polyglotにメッセージをセットします。
       メッセージのセットにはpolyglot.extend()を利用します。
     */
-    if (currentLocale === 'ja') {
+
+    if (this.currentLocale === 'ja') {
       this.polyglot.extend({
         hello: 'こんにちは、世界',
       });
-
-      this.polyglot.t('hello');
     }
+
+    // 英語の場合も翻訳データをセットしましょう
+    if (this.currentLocale === 'en') {
+      this.polyglot.extend({
+        hello: 'Hello, world',
+      });
+    }
+
+    console.log(this.currentLocale); //undefinedになる
   }
 
   updateLocale(e) {
@@ -36,11 +43,12 @@ class TranslationApp {
     const message = document.createElement('h1');
     mainField.appendChild(message);
 
-    message.innerHTML = this.setup(currentLocale);
+    this.polyglot.t('hello');
+    message.innerHTML = this.setup();
   }
 }
 
-const tranlatedMessage = new TranslationApp({});
+const tranlatedMessage = new TranslationApp();
 tranlatedMessage.showMessage();
 
 // {
