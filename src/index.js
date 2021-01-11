@@ -1,9 +1,11 @@
 import Polyglot from 'node-polyglot';
-
 class TranslationApp {
   constructor() {
-    let currentLocale = 'ja';
-    this.polyglot = new Polyglot();
+    this.polyglot = new Polyglot({locale: 'ja'});
+    this.currentLocale = 'ja';
+
+    // polyglot.locale()でも設定可能
+    // this.polyglot = new Polyglot({locale: 'ja'});
   }
 
   setup() {
@@ -14,46 +16,52 @@ class TranslationApp {
 
     if (this.currentLocale === 'ja') {
       this.polyglot.extend({
-        hello: 'こんにちは、世界',
+        'hello': 'こんにちは、世界',
       });
     }
 
-    // 英語の場合も翻訳データをセットしましょう
     if (this.currentLocale === 'en') {
       this.polyglot.extend({
-        hello: 'Hello, world',
+        'hello': 'Hello, world',
       });
     }
-
-    console.log(this.currentLocale); //undefinedになる
   }
 
   updateLocale(e) {
     /*
       ボタンにセットされたdata-localeを元に現在のlocaleを変更します。
     */
+
+    // if(this.currentLocale === 'ja') {
+    //   this.currentLocale = 'en';
+    // }
+
+    // if(this.currentLocale === 'en') {
+    //   this.currentLocale = 'ja';
+    // }
   }
 
   showMessage() {
     /*
       mainというidがセットされた要素の下にh1タグで現在のlocaleに応じて、メッセージを表示します。 
     */
-
+    this.setup();
     const mainField = document.getElementById('main');
-    const message = document.createElement('h1');
-    mainField.appendChild(message);
-
-    this.polyglot.t('hello');
-    message.innerHTML = this.setup();
+    mainField.innerHTML = `<h1>${this.polyglot.t('hello')}</h1>`; 
   }
 }
 
 const tranlatedMessage = new TranslationApp();
 tranlatedMessage.showMessage();
 
+
+// localStorage.setItem('message', tranlatedMessage);
+
+
 // {
 // const button1 = document.getElementById('button1');
 // button1.addEventListener('click', app.updateLocale);
+
 
 // const button2 = document.getElementById('button2');
 // button2.addEventListener("click", app.updateLocale);
