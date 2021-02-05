@@ -1,7 +1,7 @@
 import Polyglot from 'node-polyglot';
 class TranslationApp {
   constructor() {
-    this.polyglot = new Polyglot({locale: 'ja'});
+    this.polyglot = new Polyglot();
     this.currentLocale = 'ja';
 
     // polyglot.locale()でも設定可能
@@ -13,56 +13,64 @@ class TranslationApp {
       現在のLocaleに合わせて、polyglotにメッセージをセットします。
       メッセージのセットにはpolyglot.extend()を利用します。
     */
+    const currentLocale = this.currentLocale;
+    this.currentLocale = 'en';
+    console.log(this.currentLocale);
 
-    if (this.currentLocale === 'ja') {
+    if (currentLocale === 'ja') {
       this.polyglot.extend({
         'hello': 'こんにちは、世界',
       });
     }
 
-    if (this.currentLocale === 'en') {
+    if (currentLocale === 'en') {
       this.polyglot.extend({
-        'hello': 'Hello, world',
+        'Hello': 'こんにちは、世界',
       });
     }
   }
+
 
   updateLocale(e) {
     /*
       ボタンにセットされたdata-localeを元に現在のlocaleを変更します。
     */
+    let locale = e.target.dataset.locale;
 
-    // if(this.currentLocale === 'ja') {
-    //   this.currentLocale = 'en';
-    // }
+    if (locale === 'ja') {
+      this.currentLocale = 'ja';
+    }
 
-    // if(this.currentLocale === 'en') {
-    //   this.currentLocale = 'ja';
-    // }
+    if (locale === 'en') {
+      this.currentLocale = 'en';
+    }
   }
+
 
   showMessage() {
     /*
       mainというidがセットされた要素の下にh1タグで現在のlocaleに応じて、メッセージを表示します。 
     */
-    this.setup();
+
     const mainField = document.getElementById('main');
-    mainField.innerHTML = `<h1>${this.polyglot.t('hello')}</h1>`; 
+
+console.log(this.polyglot.t('Hello'));
+      // mainField.innerHTML = `<h1>${this.polyglot.t('hello')}</h1>`;
+
+    // mainField.innerHTML = `<h1>${this.polyglot.t('Hello')}</h1>`;
   }
+  
 }
 
 const tranlatedMessage = new TranslationApp();
+tranlatedMessage.setup();
 tranlatedMessage.showMessage();
 
-
-// localStorage.setItem('message', tranlatedMessage);
-
-
 // {
-// const button1 = document.getElementById('button1');
-// button1.addEventListener('click', app.updateLocale);
+//   const button1 = document.getElementById('button1');
+//   button1.addEventListener('click', tranlatedMessage.updateLocale);
 
 
-// const button2 = document.getElementById('button2');
-// button2.addEventListener("click", app.updateLocale);
+//   const button2 = document.getElementById('button2');
+//   button2.addEventListener("click", tranlatedMessage.updateLocale);
 // }
