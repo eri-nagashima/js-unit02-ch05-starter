@@ -36,6 +36,7 @@ class TranslationApp {
 
 
     let newLocale = e.target.dataset.locale;
+    console.log(newLocale);
 
     if (newLocale === 'ja') {
       this.currentLocale = 'ja';
@@ -45,8 +46,6 @@ class TranslationApp {
     if (newLocale === 'en') {
       this.currentLocale = 'en';
     }
-
-    // this.setup();
   }
 
 
